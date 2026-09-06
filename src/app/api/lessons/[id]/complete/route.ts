@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { requireAuth } from '@/lib/auth'
+import { db } from '@/lib/supabase-db'
+import { requireAuth } from '@/lib/auth-supabase'
 
 export async function POST(
   request: Request,
@@ -10,36 +10,8 @@ export async function POST(
     const user = await requireAuth()
     const lessonId = params.id
 
-    // Check if progress record exists
-    const existingProgress = await prisma.lessonProgress.findUnique({
-      where: {
-        userId_lessonId: {
-          userId: user.id,
-          lessonId,
-        },
-      },
-    })
-
-    if (existingProgress) {
-      // Update existing progress
-      await prisma.lessonProgress.update({
-        where: { id: existingProgress.id },
-        data: {
-          completed: true,
-          completedAt: new Date(),
-        },
-      })
-    } else {
-      // Create new progress record
-      await prisma.lessonProgress.create({
-        data: {
-          userId: user.id,
-          lessonId,
-          completed: true,
-          completedAt: new Date(),
-        },
-      })
-    }
+    // Update lesson progress
+    await db.updateLessonProgress(user.id, lessonId, true)
 
     return NextResponse.json({ success: true })
   } catch (error) {

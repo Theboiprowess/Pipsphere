@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { requireAuth } from '@/lib/auth'
+import { db } from '@/lib/supabase-db'
+import { requireAuth } from '@/lib/auth-supabase'
 
 export async function GET() {
   try {
@@ -13,21 +13,9 @@ export async function GET() {
       )
     }
 
-    const [totalUsers, totalCourses, totalOrders, pendingPayments] = await Promise.all([
-      prisma.user.count(),
-      prisma.course.count(),
-      prisma.order.count(),
-      prisma.order.count({
-        where: { paymentStatus: 'PENDING' },
-      }),
-    ])
+    const stats = await db.getAdminStats()
 
-    return NextResponse.json({
-      totalUsers,
-      totalCourses,
-      totalOrders,
-      pendingPayments,
-    })
+    return NextResponse.json(stats)
   } catch (error) {
     console.error('Get admin stats error:', error)
     if (error instanceof Error && error.message === 'Unauthorized') {

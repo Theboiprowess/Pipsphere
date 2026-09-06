@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { createClient } from '@supabase/supabase-js'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 
@@ -18,7 +19,7 @@ interface EnrolledCourse {
 interface LiveSession {
   id: string
   title: string
-  scheduledAt: string
+  scheduled_at: string
   duration: number
 }
 
@@ -32,27 +33,70 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        )
+
         // Get user session
-        const userResponse = await fetch('/api/auth/me')
-        if (!userResponse.ok) {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session) {
           router.push('/login')
           return
         }
-        const userData = await userResponse.json()
-        setUser(userData.user)
+
+        setUser(session.user)
 
         // Get enrolled courses
-        const coursesResponse = await fetch('/api/student/courses')
-        if (coursesResponse.ok) {
-          const coursesData = await coursesResponse.json()
-          setEnrolledCourses(coursesData.courses || [])
+        const { data: enrollments } = await supabase
+          .from('enrollments')
+          .select(`
+            *,
+            course:courses(*, modules(*, lessons(*, resources(*))))
+          `)
+          .eq('user_id', session.user.id)
+
+        if (enrollments) {
+          const courses = enrollments.map((enrollment: any) => {
+            const totalLessons = enrollment.course.modules.reduce(
+              (acc: number, module: any) => acc + module.lessons.length,
+              0
+            )
+
+            const completedLessons = enrollment.course.modules.reduce(
+              (acc: number, module: any) =>
+                acc +
+                module.lessons.filter(
+                  (lesson: any) =>
+                    lesson.lesson_progress && lesson.lesson_progress.length > 0 && lesson.lesson_progress[0].completed
+                ).length,
+              0
+            )
+
+            const progress = totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0
+
+            return {
+              id: enrollment.course.id,
+              title: enrollment.course.title,
+              description: enrollment.course.description,
+              level: enrollment.course.level,
+              progress: Math.round(progress),
+              image: enrollment.course.image,
+            }
+          })
+          setEnrolledCourses(courses)
         }
 
         // Get live sessions
-        const sessionsResponse = await fetch('/api/student/live-sessions')
-        if (sessionsResponse.ok) {
-          const sessionsData = await sessionsResponse.json()
-          setLiveSessions(sessionsData.sessions || [])
+        const { data: sessions } = await supabase
+          .from('live_sessions')
+          .select('*')
+          .gte('scheduled_at', new Date().toISOString())
+          .order('scheduled_at', { ascending: true })
+          .limit(5)
+
+        if (sessions) {
+          setLiveSessions(sessions)
         }
       } catch (error) {
         console.error('Failed to fetch dashboard data:', error)
@@ -88,7 +132,7 @@ export default function DashboardPage() {
           {/* Welcome Section */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold mb-2">
-              Welcome back, {user?.name || 'Trader'}!
+              Welcome back, {user?.user_metadata?.name || 'Trader'}!
             </h1>
             <p className="text-muted">
               Continue your learning journey and stay updated with market insights.
@@ -207,7 +251,7 @@ export default function DashboardPage() {
                       <div>
                         <h3 className="text-lg font-bold mb-1">{session.title}</h3>
                         <p className="text-sm text-muted">
-                          {new Date(session.scheduledAt).toLocaleDateString('en-US', {
+                          {new Date(session.scheduled_at).toLocaleDateString('en-US', {
                             weekday: 'long',
                             year: 'numeric',
                             month: 'long',

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { requireAuth } from '@/lib/auth'
+import { db } from '@/lib/supabase-db'
+import { requireAuth } from '@/lib/auth-supabase'
 import { createStripeCheckoutSession } from '@/lib/stripe'
 
 export async function POST(request: NextRequest) {
@@ -21,9 +21,7 @@ export async function POST(request: NextRequest) {
     let productName = ''
 
     if (courseId) {
-      const course = await prisma.course.findUnique({
-        where: { id: courseId },
-      })
+      const course = await db.getCourse(courseId)
       if (!course) {
         return NextResponse.json(
           { error: 'Course not found' },
@@ -33,9 +31,7 @@ export async function POST(request: NextRequest) {
       amount = course.price
       productName = course.title
     } else if (planId) {
-      const plan = await prisma.plan.findUnique({
-        where: { id: planId },
-      })
+      const plan = await db.getPlan(planId)
       if (!plan) {
         return NextResponse.json(
           { error: 'Plan not found' },
@@ -56,16 +52,14 @@ export async function POST(request: NextRequest) {
     )
 
     // Create pending order
-    await prisma.order.create({
-      data: {
-        userId: user.id,
-        courseId: courseId || null,
-        planId: planId || null,
-        amount,
-        currency: 'USD',
-        paymentMethod: 'CARD',
-        paymentStatus: 'PENDING',
-      },
+    await db.createOrder({
+      userId: user.id,
+      courseId: courseId || null,
+      planId: planId || null,
+      amount,
+      currency: 'USD',
+      paymentMethod: 'CARD',
+      paymentStatus: 'PENDING',
     })
 
     return NextResponse.json({ url })

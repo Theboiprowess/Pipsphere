@@ -153,6 +153,24 @@ export const db = {
     return data
   },
 
+  async getLesson(lessonId: string, userId?: string) {
+    const { data, error } = await supabase
+      .from('lessons')
+      .select(`
+        *,
+        module(
+          *,
+          course:courses(*)
+        ),
+        resources(*)
+      `)
+      .eq('id', lessonId)
+      .single()
+    
+    if (error) throw error
+    return data
+  },
+
   async updateLessonProgress(
     userId: string,
     lessonId: string,

@@ -1,22 +1,12 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { requireAuth } from '@/lib/auth'
+import { db } from '@/lib/supabase-db'
+import { requireAuth } from '@/lib/auth-supabase'
 
 export async function GET() {
   try {
     const user = await requireAuth()
 
-    const sessions = await prisma.liveSession.findMany({
-      where: {
-        scheduledAt: {
-          gte: new Date(),
-        },
-      },
-      orderBy: {
-        scheduledAt: 'asc',
-      },
-      take: 5,
-    })
+    const sessions = await db.getUpcomingLiveSessions()
 
     return NextResponse.json({ sessions })
   } catch (error) {

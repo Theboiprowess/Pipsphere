@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { requireAuth } from '@/lib/auth'
+import { db } from '@/lib/supabase-db'
+import { requireAuth } from '@/lib/auth-supabase'
 
 export async function GET(
   request: Request,
@@ -11,14 +11,7 @@ export async function GET(
     const courseId = params.id
 
     // Check if user is enrolled
-    const enrollment = await prisma.enrollment.findUnique({
-      where: {
-        userId_courseId: {
-          userId: user.id,
-          courseId,
-        },
-      },
-    })
+    const enrollment = await db.checkEnrollment(user.id, courseId)
 
     if (!enrollment) {
       return NextResponse.json(
@@ -27,24 +20,7 @@ export async function GET(
       )
     }
 
-    const course = await prisma.course.findUnique({
-      where: { id: courseId },
-      include: {
-        modules: {
-          orderBy: { order: 'asc' },
-          include: {
-            lessons: {
-              orderBy: { order: 'asc' },
-              include: {
-                progress: {
-                  where: { userId: user.id },
-                },
-              },
-            },
-          },
-        },
-      },
-    })
+    const course = await db.getCourse(courseId)
 
     if (!course) {
       return NextResponse.json(
@@ -55,11 +31,11 @@ export async function GET(
 
     const formattedCourse = {
       ...course,
-      modules: course.modules.map((module) => ({
+      modules: course.modules.map((module: any) => ({
         ...module,
-        lessons: module.lessons.map((lesson) => ({
+        lessons: module.lessons.map((lesson: any) => ({
           ...lesson,
-          completed: lesson.progress.length > 0 && lesson.progress[0].completed,
+          completed: lesson.lesson_progress && lesson.lesson_progress.length > 0 && lesson.lesson_progress[0].completed,
         })),
       })),
     }

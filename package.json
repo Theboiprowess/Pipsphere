@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "prisma skills sync || exit 0",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx supabase/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^7.10.0",

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { createClient } from '@supabase/supabase-js'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 
@@ -27,21 +28,31 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        )
+
         // Get user session
-        const userResponse = await fetch('/api/auth/me')
-        if (!userResponse.ok) {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session) {
           router.push('/login')
           return
         }
-        const userData = await userResponse.json()
-        
-        // Check if user is admin
-        if (userData.user.role !== 'ADMIN') {
+
+        // Get user role from public.users table
+        const { data: userData } = await supabase
+          .from('users')
+          .select('role')
+          .eq('id', session.user.id)
+          .single()
+
+        if (!userData || userData.role !== 'ADMIN') {
           router.push('/dashboard')
           return
         }
-        
-        setUser(userData.user)
+
+        setUser(session.user)
 
         // Get admin stats
         const statsResponse = await fetch('/api/admin/stats')
@@ -110,6 +121,30 @@ export default function AdminDashboard() {
           {/* Quick Actions */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <Link
+              href="/admin/live-sessions"
+              className="bg-card p-6 rounded-xl border border-border card-hover"
+            >
+              <div className="text-3xl mb-4">📅</div>
+              <h3 className="font-semibold mb-2">Live Sessions</h3>
+              <p className="text-sm text-muted">Manage live trading sessions</p>
+            </Link>
+            <Link
+              href="/admin/testimonials"
+              className="bg-card p-6 rounded-xl border border-border card-hover"
+            >
+              <div className="text-3xl mb-4">💬</div>
+              <h3 className="font-semibold mb-2">Testimonials</h3>
+              <p className="text-sm text-muted">Review and approve testimonials</p>
+            </Link>
+            <Link
+              href="/admin/resources"
+              className="bg-card p-6 rounded-xl border border-border card-hover"
+            >
+              <div className="text-3xl mb-4">📁</div>
+              <h3 className="font-semibold mb-2">Resources</h3>
+              <p className="text-sm text-muted">Manage lesson resources</p>
+            </Link>
+            <Link
               href="/admin/courses"
               className="bg-card p-6 rounded-xl border border-border card-hover"
             >
@@ -140,6 +175,14 @@ export default function AdminDashboard() {
               <div className="text-3xl mb-4">💰</div>
               <h3 className="font-semibold mb-2">Payment Review</h3>
               <p className="text-sm text-muted">Review crypto payments</p>
+            </Link>
+            <Link
+              href="/community"
+              className="bg-card p-6 rounded-xl border border-border card-hover"
+            >
+              <div className="text-3xl mb-4">🌐</div>
+              <h3 className="font-semibold mb-2">Community</h3>
+              <p className="text-sm text-muted">View community discussions</p>
             </Link>
           </div>
 

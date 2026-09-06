@@ -1,18 +1,20 @@
 # Pipsphere - Forex Education Platform
 
-A modern, premium forex education website built with Next.js, TypeScript, and Tailwind CSS. Pipsphere provides structured learning, mentorship, and community support for aspiring traders.
+A modern, premium forex education website built with Next.js, TypeScript, Tailwind CSS, and Supabase. Pipsphere provides structured learning, mentorship, and community support for aspiring traders.
 
 ## 🚀 Features
 
-- **Modern Landing Page**: Professional hero section, program previews, trader profiles, and testimonials
+- **Modern Landing Page**: Professional hero section, program previews, trader profiles, testimonials
 - **Course Management**: Beginner, intermediate, and advanced forex programs with detailed curriculum
-- **Authentication System**: Secure sign-up, sign-in, and session management
+- **Supabase Authentication**: Secure sign-up, sign-in, and session management with Supabase Auth
 - **Payment Integration**: 
   - Stripe for card payments
   - Crypto payment support (USDT via TRC20 and ERC20 networks)
 - **Student Dashboard**: Track enrolled courses, progress, and upcoming live sessions
-- **Course Learning Interface**: Video lessons, progress tracking, and downloadable resources
+- **Course Learning Interface**: Video lessons, progress tracking, module navigation, and downloadable resources
 - **Admin Dashboard**: Manage courses, users, orders, and payments
+- **Supabase Realtime**: Live updates for sessions, enrollments, and notifications
+- **Supabase Storage**: File storage for course videos, images, and resources
 - **Responsive Design**: Mobile-first approach with polished UI
 - **SEO Optimized**: Metadata, sitemap, robots.txt, and structured data
 - **Legal Pages**: Privacy Policy, Terms of Service, Risk Disclaimer, Refund Policy
@@ -21,17 +23,17 @@ A modern, premium forex education website built with Next.js, TypeScript, and Ta
 
 - **Frontend**: Next.js 16 (App Router), React 19, TypeScript
 - **Styling**: Tailwind CSS 4
-- **Database**: PostgreSQL with Prisma ORM
-- **Authentication**: Custom JWT-based authentication
+- **Backend**: Supabase (PostgreSQL database, Auth, Storage, Realtime)
+- **Authentication**: Supabase Auth
 - **Payments**: Stripe, Crypto payment abstraction (NOWPayments, Coinbase Commerce, BitPay)
 - **Deployment**: Vercel (recommended), Netlify, or any Node.js hosting
 
 ## 📋 Prerequisites
 
 - Node.js 18+ 
-- PostgreSQL database
+- Supabase account (free tier works)
 - npm or yarn package manager
-- Stripe account (for card payments)
+- Stripe account (optional, for card payments)
 - Crypto payment provider account (optional, for USDT payments)
 
 ## 🔧 Installation
@@ -47,50 +49,66 @@ A modern, premium forex education website built with Next.js, TypeScript, and Ta
    npm install
    ```
 
-3. **Set up environment variables**
+3. **Set up Supabase project**
+   - Go to [supabase.com](https://supabase.com) and create a new project
+   - In your Supabase project, go to the SQL Editor
+   - Run the SQL script from `supabase/schema.sql` to create the database schema
+   - Enable the following extensions in your Supabase project:
+     - Storage API (for file uploads)
+     - Realtime (for live updates)
+
+4. **Create Storage buckets**
+   In your Supabase project, create the following storage buckets:
+   - `course-images` (public)
+   - `lesson-videos` (public)
+   - `lesson-resources` (public)
+   - `trader-images` (public)
+
+5. **Set up environment variables**
    ```bash
    cp .env.example .env
    ```
    Edit `.env` with your configuration:
    ```env
-   # Database
-   DATABASE_URL="postgresql://user:password@localhost:5432/pipsphere"
+   # Supabase Configuration
+   NEXT_PUBLIC_SUPABASE_URL="your-supabase-project-url"
+   NEXT_PUBLIC_SUPABASE_ANON_KEY="your-supabase-anon-key"
+   SUPABASE_SERVICE_ROLE_KEY="your-supabase-service-role-key"
    
-   # JWT Secret (generate a secure random string)
-   JWT_SECRET="your-secure-jwt-secret-key"
-   
-   # App
-   NEXT_PUBLIC_APP_URL="http://localhost:3000"
-   NEXT_PUBLIC_APP_NAME="Pipsphere"
-   
-   # Stripe (optional, for card payments)
+   # Stripe (Optional - for card payments)
    STRIPE_SECRET_KEY="sk_test_your_stripe_secret_key"
    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_your_stripe_publishable_key"
    STRIPE_WEBHOOK_SECRET="whsec_your_stripe_webhook_secret"
    
-   # Crypto Payment (optional)
-   CRYPTO_PAYMENT_PROVIDER="nowpayments"
+   # Crypto Payment (Optional - for USDT payments)
+   CRYPTO_PAYMENT_PROVIDER="nowpayments" # Options: nowpayments, coinbase, bitpay
    NOWPAYMENTS_API_KEY="your-nowpayments-api-key"
    NOWPAYMENTS_API_SECRET="your-nowpayments-api-secret"
+   COINBASE_COMMERCE_API_KEY="your-coinbase-api-key"
+   BITPAY_MERCHANT_ID="your-bitpay-merchant-id"
+   
+   # Crypto Wallet Addresses (for manual configuration)
    USDT_TRC20_WALLET_ADDRESS="your-trc20-wallet-address"
    USDT_ERC20_WALLET_ADDRESS="your-erc20-wallet-address"
+   
+   # App Configuration
+   NEXT_PUBLIC_APP_URL="http://localhost:3000"
+   NEXT_PUBLIC_APP_NAME="Pipsphere"
    ```
 
-4. **Set up the database**
+6. **Seed the database**
    ```bash
-   # Generate Prisma client
-   npx prisma generate
-   
-   # Push database schema
-   npx prisma db push
-   
-   # Seed the database (creates admin user, traders, courses)
    npm run db:seed
    ```
 
-   Default admin credentials:
-   - Email: `admin@pipsphere.com`
-   - Password: `admin123`
+   This will create:
+   - Admin user (admin@pipsphere.com / admin123)
+   - 4 trader profiles
+   - 3 sample courses with modules and lessons
+   - 2 membership plans
+   - Sample testimonials
+   - Sample live session
+
    **Important**: Change the admin password after first login!
 
 ## 🚀 Running the Application
@@ -111,13 +129,13 @@ npm start
 
 ```
 pipsphere/
-├── prisma/
-│   ├── schema.prisma          # Database schema
-│   └── seed.ts                # Database seed data
+├── supabase/
+│   ├── schema.sql              # Database schema for Supabase
+│   └── seed.ts                 # Database seed data
 ├── src/
 │   ├── app/
 │   │   ├── admin/             # Admin dashboard
-│   │   ├── api/               # API routes
+│   │   ├── api/               # API routes (using Supabase)
 │   │   ├── courses/           # Course pages
 │   │   ├── dashboard/         # Student dashboard
 │   │   ├── (legal pages)/     # Privacy, Terms, etc.
@@ -127,12 +145,16 @@ pipsphere/
 │   ├── components/
 │   │   ├── Navigation.tsx     # Main navigation
 │   │   └── Footer.tsx         # Site footer
-│   └── lib/
-│       ├── auth.ts            # Authentication utilities
-│       ├── crypto-payment.ts  # Crypto payment abstraction
-│       ├── prisma.ts          # Prisma client
-│       ├── stripe.ts          # Stripe integration
-│       └── supabase.ts        # Supabase client
+│   ├── lib/
+│   │   ├── auth-supabase.ts   # Supabase authentication utilities
+│   │   ├── crypto-payment.ts  # Crypto payment abstraction
+│   │   ├── stripe.ts          # Stripe integration
+│   │   ├── supabase.ts        # Supabase client configuration
+│   │   ├── supabase-db.ts     # Database operations helper
+│   │   ├── supabase-storage.ts # Storage operations helper
+│   │   └── supabase-realtime.ts # Realtime subscriptions helper
+│   └── types/
+│       └── supabase.ts        # TypeScript types for Supabase
 ├── .env.example               # Environment variables template
 └── README.md                  # This file
 ```
@@ -141,15 +163,15 @@ pipsphere/
 
 1. **Never commit sensitive data**: `.env` files are gitignored
 2. **Change default credentials**: Update admin password immediately
-3. **Use strong secrets**: Generate secure JWT_SECRET and API keys
+3. **Use strong secrets**: Generate secure API keys
 4. **Enable HTTPS**: Use SSL in production
-5. **Validate inputs**: All user inputs are validated on the server
-6. **Protect admin routes**: Admin-only pages require authentication
-7. **Payment security**: 
+5. **Row Level Security**: Supabase RLS policies are configured for data protection
+6. **Payment security**: 
    - Never store card data (handled by Stripe)
    - Never store private crypto keys
    - Verify all payment webhooks
-8. **Rate limiting**: Implement rate limiting on API routes in production
+7. **Admin-only routes**: Protected by middleware and RLS policies
+8. **Service role key**: Only use service role key on server-side operations
 
 ## 💳 Payment Setup
 
@@ -200,19 +222,21 @@ Choose a provider (NOWPayments, Coinbase Commerce, or BitPay):
 
 ## 📊 Database Management
 
-### View Database
-```bash
-npx prisma studio
-```
+### Supabase Dashboard
+- Access your database via Supabase Dashboard
+- Use the Table Editor to view and edit data
+- Use the SQL Editor for complex queries
+- Enable Realtime for live updates
+- Configure Storage buckets
 
-### Reset Database
-```bash
-npx prisma migrate reset
-```
+### Running the SQL Schema
+- Copy the contents of `supabase/schema.sql`
+- Paste into Supabase SQL Editor
+- Execute to create all tables and policies
 
-### Create New Migration
+### Seeding Data
 ```bash
-npx prisma migrate dev --name migration_name
+npm run db:seed
 ```
 
 ## 🧪 Testing
@@ -236,8 +260,7 @@ npm install --save-dev jest @testing-library/react @testing-library/jest-dom
 1. Fork the repository
 2. Create a feature branch
 3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
+4. Open a Pull Request
 
 ## 📄 License
 
@@ -263,8 +286,9 @@ Regular updates should include:
 - Images are optimized with Next.js Image component
 - Code splitting is automatic with Next.js
 - CSS is purged with Tailwind
-- Database queries are optimized with Prisma
+- Database queries are optimized with Supabase
 - Static generation where possible
+- Supabase Edge Functions for global performance
 
 ## 🌐 Internationalization
 
@@ -289,7 +313,7 @@ The platform is fully responsive and optimized for:
 - Regular security audits are recommended
 - Keep dependencies updated
 - Monitor payment transactions regularly
-- Backup database regularly
+- Backup database regularly (Supabase provides automated backups)
 
 ## 🎯 Future Enhancements
 
@@ -300,6 +324,27 @@ Potential future features:
 - Advanced community features
 - Certification programs
 - Prop firm partnerships
+
+## 🔧 Supabase-Specific Features
+
+### Realtime Subscriptions
+The application uses Supabase Realtime for:
+- Live session updates
+- Enrollment notifications
+- Lesson progress tracking
+- Payment status updates
+
+### Storage Management
+- Course images are stored in `course-images` bucket
+- Lesson videos in `lesson-videos` bucket
+- Downloadable resources in `lesson-resources` bucket
+- Trader profile images in `trader-images` bucket
+
+### Row Level Security (RLS)
+- Public data is readable by authenticated users
+- User-specific data is protected by user ID
+- Admin operations require admin role
+- All policies are defined in `supabase/schema.sql`
 
 ---
 

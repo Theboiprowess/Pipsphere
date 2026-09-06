@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { requireAuth } from '@/lib/auth'
+import { db } from '@/lib/supabase-db'
+import { requireAuth } from '@/lib/auth-supabase'
 
 export async function GET(
   request: Request,
@@ -10,20 +10,7 @@ export async function GET(
     const user = await requireAuth()
     const lessonId = params.id
 
-    const lesson = await prisma.lesson.findUnique({
-      where: { id: lessonId },
-      include: {
-        module: {
-          include: {
-            course: true,
-          },
-        },
-        progress: {
-          where: { userId: user.id },
-        },
-        resources: true,
-      },
-    })
+    const lesson = await db.getLesson(lessonId, user.id)
 
     if (!lesson) {
       return NextResponse.json(
@@ -33,14 +20,7 @@ export async function GET(
     }
 
     // Check if user is enrolled in the course
-    const enrollment = await prisma.enrollment.findUnique({
-      where: {
-        userId_courseId: {
-          userId: user.id,
-          courseId: lesson.module.course.id,
-        },
-      },
-    })
+    const enrollment = await db.checkEnrollment(user.id, lesson.module.course_id)
 
     if (!enrollment) {
       return NextResponse.json(
@@ -49,9 +29,12 @@ export async function GET(
       )
     }
 
+    // Get lesson progress
+    const progress = await db.getLessonProgress(user.id, lessonId)
+
     const formattedLesson = {
       ...lesson,
-      completed: lesson.progress.length > 0 && lesson.progress[0].completed,
+      completed: progress && progress.completed,
     }
 
     return NextResponse.json({ lesson: formattedLesson })
