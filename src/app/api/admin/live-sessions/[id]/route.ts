@@ -5,16 +5,17 @@ import { requireAuth } from '@/lib/auth'
 // PUT update live session (admin only)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAuth(['ADMIN'])
+    const { id: sessionId } = await params
 
     const body = await request.json()
     const { title, description, scheduledAt, duration, meetingUrl } = body
 
     const session = await prisma.liveSession.update({
-      where: { id: params.id },
+      where: { id: sessionId },
       data: {
         ...(title && { title }),
         ...(description && { description }),
@@ -39,13 +40,14 @@ export async function PUT(
 // DELETE live session (admin only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAuth(['ADMIN'])
+    const { id: sessionId } = await params
 
     await prisma.liveSession.delete({
-      where: { id: params.id },
+      where: { id: sessionId },
     })
 
     return NextResponse.json({ message: 'Live session deleted successfully' })

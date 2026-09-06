@@ -5,10 +5,11 @@ import { requireAuth } from '@/lib/auth'
 // PUT update user role (admin only)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAuth(['ADMIN'])
+    const { id: userId } = await params
 
     const body = await request.json()
     const { role } = body
@@ -18,7 +19,7 @@ export async function PUT(
     }
 
     const user = await prisma.user.update({
-      where: { id: params.id },
+      where: { id: userId },
       data: { role },
       select: {
         id: true,
@@ -44,13 +45,14 @@ export async function PUT(
 // DELETE user (admin only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAuth(['ADMIN'])
+    const { id: userId } = await params
 
     await prisma.user.delete({
-      where: { id: params.id },
+      where: { id: userId },
     })
 
     return NextResponse.json({ message: 'User deleted successfully' })

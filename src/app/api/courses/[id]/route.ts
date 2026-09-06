@@ -4,11 +4,11 @@ import { requireAuth } from '@/lib/auth-supabase'
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth()
-    const courseId = params.id
+    const { id: courseId } = await params
 
     // Check if user is enrolled
     const enrollment = await db.checkEnrollment(user.id, courseId)

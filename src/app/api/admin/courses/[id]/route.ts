@@ -5,10 +5,11 @@ import { requireAuth } from '@/lib/auth'
 // PUT update course (admin only)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAuth(['ADMIN'])
+    const { id: courseId } = await params
 
     const body = await request.json()
     const { title, description, level, price, duration, image, traderId } = body
@@ -25,7 +26,7 @@ export async function PUT(
     }
 
     const course = await prisma.course.update({
-      where: { id: params.id },
+      where: { id: courseId },
       data: {
         ...(title && { title }),
         ...(description && { description }),
@@ -55,13 +56,14 @@ export async function PUT(
 // DELETE course (admin only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAuth(['ADMIN'])
+    const { id: courseId } = await params
 
     await prisma.course.delete({
-      where: { id: params.id },
+      where: { id: courseId },
     })
 
     return NextResponse.json({ message: 'Course deleted successfully' })

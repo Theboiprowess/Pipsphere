@@ -5,10 +5,11 @@ import { requireAuth } from '@/lib/auth'
 // PUT update resource (admin only)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAuth(['ADMIN'])
+    const { id: resourceId } = await params
 
     const body = await request.json()
     const { title, url, type, lessonId } = body
@@ -25,7 +26,7 @@ export async function PUT(
     }
 
     const resource = await prisma.resource.update({
-      where: { id: params.id },
+      where: { id: resourceId },
       data: {
         ...(title && { title }),
         ...(url && { url }),
@@ -49,13 +50,14 @@ export async function PUT(
 // DELETE resource (admin only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAuth(['ADMIN'])
+    const { id: resourceId } = await params
 
     await prisma.resource.delete({
-      where: { id: params.id },
+      where: { id: resourceId },
     })
 
     return NextResponse.json({ message: 'Resource deleted successfully' })

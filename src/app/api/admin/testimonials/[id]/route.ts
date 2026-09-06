@@ -5,16 +5,17 @@ import { requireAuth } from '@/lib/auth'
 // PUT update testimonial (admin only)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAuth(['ADMIN'])
+    const { id: testimonialId } = await params
 
     const body = await request.json()
     const { name, content, rating, image, isApproved } = body
 
     const testimonial = await prisma.testimonial.update({
-      where: { id: params.id },
+      where: { id: testimonialId },
       data: {
         ...(name && { name }),
         ...(content && { content }),
@@ -39,13 +40,14 @@ export async function PUT(
 // DELETE testimonial (admin only)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAuth(['ADMIN'])
+    const { id: testimonialId } = await params
 
     await prisma.testimonial.delete({
-      where: { id: params.id },
+      where: { id: testimonialId },
     })
 
     return NextResponse.json({ message: 'Testimonial deleted successfully' })

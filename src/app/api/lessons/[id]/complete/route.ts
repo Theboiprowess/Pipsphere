@@ -4,11 +4,11 @@ import { requireAuth } from '@/lib/auth-supabase'
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await requireAuth()
-    const lessonId = params.id
+    const { id: lessonId } = await params
 
     // Update lesson progress
     await db.updateLessonProgress(user.id, lessonId, true)

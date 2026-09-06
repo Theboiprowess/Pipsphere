@@ -5,10 +5,11 @@ import { requireAuth } from '@/lib/auth'
 // PUT approve/reject crypto payment (admin only)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAuth(['ADMIN'])
+    const { id: paymentId } = await params
 
     const body = await request.json()
     const { action, transactionId } = body
@@ -24,7 +25,7 @@ export async function PUT(
     }
 
     const payment = await prisma.order.update({
-      where: { id: params.id },
+      where: { id: paymentId },
       data: updateData,
       include: {
         user: {
