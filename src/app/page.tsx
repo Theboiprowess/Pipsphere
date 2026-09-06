@@ -1,8 +1,37 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
 
+interface Testimonial {
+  name: string
+  content: string
+  rating: number
+}
+
 export default function Home() {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const response = await fetch('/api/testimonials')
+        if (response.ok) {
+          const data = await response.json()
+          setTestimonials(data.testimonials || [])
+        }
+      } catch (error) {
+        console.error('Failed to fetch testimonials:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchTestimonials()
+  }, [])
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
@@ -249,36 +278,37 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                {
-                  name: 'James Wilson',
-                  content: 'The structured approach at Pipsphere transformed my trading. I went from losing consistently to having a profitable strategy after completing the intermediate course.',
-                  rating: 5,
-                },
-                {
-                  name: 'Maria Garcia',
-                  content: 'The community membership is worth every penny. Daily analysis and live sessions have helped me understand market movements much better.',
-                  rating: 5,
-                },
-                {
-                  name: 'David Kim',
-                  content: 'Elena\'s psychology sessions changed everything. I was my own worst enemy, but now I have the discipline to follow my trading plan.',
-                  rating: 4,
-                },
-              ].map((testimonial, index) => (
-                <div key={index} className="bg-card p-6 rounded-xl border border-border">
-                  <div className="flex items-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <svg key={i} className="w-5 h-5 text-secondary" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
+              {loading ? (
+                <div className="col-span-3 text-center text-muted">Loading testimonials...</div>
+              ) : testimonials.length === 0 ? (
+                <div className="col-span-3 text-center text-muted">No testimonials yet. Be the first to share your experience!</div>
+              ) : (
+                testimonials.slice(0, 3).map((testimonial, index) => (
+                  <div key={index} className="bg-card p-6 rounded-xl border border-border">
+                    <div className="flex items-center mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <svg key={i} className="w-5 h-5 text-secondary" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <p className="text-muted mb-4 italic">"{testimonial.content}"</p>
+                    <p className="font-semibold">{testimonial.name}</p>
                   </div>
-                  <p className="text-muted mb-4 italic">"{testimonial.content}"</p>
-                  <p className="font-semibold">{testimonial.name}</p>
-                </div>
-              ))}
+                ))
+              )}
             </div>
+
+            {testimonials.length > 3 && (
+              <div className="text-center mt-12">
+                <button className="text-primary font-semibold hover:text-accent transition-colors">
+                  View All Testimonials
+                  <svg className="w-5 h-5 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </button>
+              </div>
+            )}
           </div>
         </section>
 

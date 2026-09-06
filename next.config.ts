@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    skipDefaultWorkers: true,
+  },
 };
 
 export default nextConfig;

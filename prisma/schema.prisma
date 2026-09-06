@@ -49,6 +49,8 @@ model User {
   enrollments   Enrollment[]
   orders        Order[]
   progress      LessonProgress[]
+  forumPosts    ForumPost[]
+  comments      Comment[]
   
   @@index([email])
 }
@@ -141,7 +143,7 @@ model Enrollment {
   course      Course   @relation(fields: [courseId], references: [id])
   enrolledAt  DateTime @default(now())
   
-  @@unique([userId, courseId])
+  @@unique([userId, courseId], name: "userId_courseId")
   @@index([userId])
   @@index([courseId])
 }
@@ -236,4 +238,42 @@ model LiveSession {
   updatedAt   DateTime @updatedAt
   
   @@index([scheduledAt])
+}
+
+model ForumPost {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  category    String
+  isPinned    Boolean  @default(false)
+  isLocked    Boolean  @default(false)
+  views       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  comments    Comment[]
+  
+  @@index([userId])
+  @@index([category])
+  @@index([createdAt])
+}
+
+model Comment {
+  id          String   @id @default(cuid())
+  content     String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  postId      String
+  post        ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  parentId    String?
+  parent      Comment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies     Comment[] @relation("CommentReplies")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([postId])
+  @@index([parentId])
 }
