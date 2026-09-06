@@ -55,11 +55,12 @@ export default function AdminDashboard() {
         setUser(session.user)
 
         // Get admin stats
-        const statsResponse = await fetch('/api/admin/stats')
-        if (statsResponse.ok) {
-          const statsData = await statsResponse.json()
-          setStats(statsData)
-        }
+        setStats({
+          totalUsers: 0,
+          totalCourses: 0,
+          totalOrders: 0,
+          pendingPayments: 0,
+        })
       } catch (error) {
         console.error('Failed to fetch admin data:', error)
         router.push('/dashboard')
@@ -120,70 +121,26 @@ export default function AdminDashboard() {
 
           {/* Quick Actions */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <Link
-              href="/admin/live-sessions"
-              className="bg-card p-6 rounded-xl border border-border card-hover"
-            >
-              <div className="text-3xl mb-4">📅</div>
-              <h3 className="font-semibold mb-2">Live Sessions</h3>
-              <p className="text-sm text-muted">Manage live trading sessions</p>
-            </Link>
-            <Link
-              href="/admin/testimonials"
-              className="bg-card p-6 rounded-xl border border-border card-hover"
-            >
-              <div className="text-3xl mb-4">💬</div>
-              <h3 className="font-semibold mb-2">Testimonials</h3>
-              <p className="text-sm text-muted">Review and approve testimonials</p>
-            </Link>
-            <Link
-              href="/admin/resources"
-              className="bg-card p-6 rounded-xl border border-border card-hover"
-            >
-              <div className="text-3xl mb-4">📁</div>
-              <h3 className="font-semibold mb-2">Resources</h3>
-              <p className="text-sm text-muted">Manage lesson resources</p>
-            </Link>
-            <Link
-              href="/admin/courses"
-              className="bg-card p-6 rounded-xl border border-border card-hover"
-            >
-              <div className="text-3xl mb-4">📚</div>
+            <div className="bg-card p-6 rounded-xl border border-border">
+              <div className="text-3xl mb-4">�</div>
               <h3 className="font-semibold mb-2">Manage Courses</h3>
-              <p className="text-sm text-muted">Create and edit course content</p>
-            </Link>
-            <Link
-              href="/admin/users"
-              className="bg-card p-6 rounded-xl border border-border card-hover"
-            >
+              <p className="text-sm text-muted">Coming soon</p>
+            </div>
+            <div className="bg-card p-6 rounded-xl border border-border">
               <div className="text-3xl mb-4">👥</div>
               <h3 className="font-semibold mb-2">Manage Users</h3>
-              <p className="text-sm text-muted">View and manage user accounts</p>
-            </Link>
-            <Link
-              href="/admin/orders"
-              className="bg-card p-6 rounded-xl border border-border card-hover"
-            >
+              <p className="text-sm text-muted">Coming soon</p>
+            </div>
+            <div className="bg-card p-6 rounded-xl border border-border">
               <div className="text-3xl mb-4">💳</div>
               <h3 className="font-semibold mb-2">Manage Orders</h3>
-              <p className="text-sm text-muted">Review and process orders</p>
-            </Link>
-            <Link
-              href="/admin/payments"
-              className="bg-card p-6 rounded-xl border border-border card-hover"
-            >
+              <p className="text-sm text-muted">Coming soon</p>
+            </div>
+            <div className="bg-card p-6 rounded-xl border border-border">
               <div className="text-3xl mb-4">💰</div>
               <h3 className="font-semibold mb-2">Payment Review</h3>
-              <p className="text-sm text-muted">Review crypto payments</p>
-            </Link>
-            <Link
-              href="/community"
-              className="bg-card p-6 rounded-xl border border-border card-hover"
-            >
-              <div className="text-3xl mb-4">🌐</div>
-              <h3 className="font-semibold mb-2">Community</h3>
-              <p className="text-sm text-muted">View community discussions</p>
-            </Link>
+              <p className="text-sm text-muted">Coming soon</p>
+            </div>
           </div>
 
           {/* Recent Activity */}
