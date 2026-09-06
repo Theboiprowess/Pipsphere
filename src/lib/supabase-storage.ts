@@ -1,4 +1,4 @@
-import { supabase } from './supabase'
+import { getSupabase } from './getSupabase()'
 
 export const storage = {
   // Course images
@@ -7,13 +7,13 @@ export const storage = {
     const fileName = `${courseId}.${fileExt}`
     const filePath = `courses/${fileName}`
 
-    const { error: uploadError } = await supabase.storage
+    const { error: uploadError } = await getSupabase().storage
       .from('course-images')
       .upload(filePath, file)
 
     if (uploadError) throw uploadError
 
-    const { data } = supabase.storage
+    const { data } = getSupabase().storage
       .from('course-images')
       .getPublicUrl(filePath)
 
@@ -24,7 +24,7 @@ export const storage = {
     const filePath = url.split('/').pop()
     if (!filePath) return
 
-    const { error } = await supabase.storage
+    const { error } = await getSupabase().storage
       .from('course-images')
       .remove([`courses/${filePath}`])
 
@@ -37,13 +37,13 @@ export const storage = {
     const fileName = `${lessonId}.${fileExt}`
     const filePath = `lessons/${fileName}`
 
-    const { error: uploadError } = await supabase.storage
+    const { error: uploadError } = await getSupabase().storage
       .from('lesson-videos')
       .upload(filePath, file)
 
     if (uploadError) throw uploadError
 
-    const { data } = supabase.storage
+    const { data } = getSupabase().storage
       .from('lesson-videos')
       .getPublicUrl(filePath)
 
@@ -54,7 +54,7 @@ export const storage = {
     const filePath = url.split('/').pop()
     if (!filePath) return
 
-    const { error } = await supabase.storage
+    const { error } = await getSupabase().storage
       .from('lesson-videos')
       .remove([`lessons/${filePath}`])
 
@@ -67,13 +67,13 @@ export const storage = {
     const fileName = `${lessonId}/${Date.now()}.${fileExt}`
     const filePath = `resources/${fileName}`
 
-    const { error: uploadError } = await supabase.storage
+    const { error: uploadError } = await getSupabase().storage
       .from('lesson-resources')
       .upload(filePath, file)
 
     if (uploadError) throw uploadError
 
-    const { data } = supabase.storage
+    const { data } = getSupabase().storage
       .from('lesson-resources')
       .getPublicUrl(filePath)
 
@@ -84,7 +84,7 @@ export const storage = {
     const filePath = url.split('/').pop()
     if (!filePath) return
 
-    const { error } = await supabase.storage
+    const { error } = await getSupabase().storage
       .from('lesson-resources')
       .remove([`resources/${filePath}`])
 
@@ -97,13 +97,13 @@ export const storage = {
     const fileName = `${traderId}.${fileExt}`
     const filePath = `traders/${fileName}`
 
-    const { error: uploadError } = await supabase.storage
+    const { error: uploadError } = await getSupabase().storage
       .from('trader-images')
       .upload(filePath, file)
 
     if (uploadError) throw uploadError
 
-    const { data } = supabase.storage
+    const { data } = getSupabase().storage
       .from('trader-images')
       .getPublicUrl(filePath)
 
@@ -114,7 +114,7 @@ export const storage = {
     const filePath = url.split('/').pop()
     if (!filePath) return
 
-    const { error } = await supabase.storage
+    const { error } = await getSupabase().storage
       .from('trader-images')
       .remove([`traders/${filePath}`])
 

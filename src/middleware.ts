@@ -6,10 +6,19 @@ import { Database } from '@/types/supabase'
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
+  // Check if Supabase environment variables are present
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    // Skip middleware if Supabase is not configured
+    return NextResponse.next()
+  }
+
   // Create Supabase client for middleware
   const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         get(name: string) {
