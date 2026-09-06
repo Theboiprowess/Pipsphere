@@ -1,5 +1,3 @@
-import { CryptoNetwork as PrismaCryptoNetwork } from '@prisma/client'
-
 // Export string values for client-side usage (doesn't require Prisma client)
 export const CryptoNetworkValues = {
   TRC20: 'TRC20',
@@ -8,8 +6,11 @@ export const CryptoNetworkValues = {
 
 export type CryptoNetworkString = typeof CryptoNetworkValues[keyof typeof CryptoNetworkValues]
 
-// Re-export Prisma enum for server-side usage
-export const CryptoNetwork = PrismaCryptoNetwork
+// Define enum for server-side usage (doesn't require Prisma client)
+export enum CryptoNetwork {
+  TRC20 = 'TRC20',
+  ERC20 = 'ERC20',
+}
 
 export interface CryptoPaymentConfig {
   provider: 'nowpayments' | 'coinbase' | 'bitpay'
@@ -25,7 +26,7 @@ export interface CryptoPaymentConfig {
 export interface CryptoPaymentRequest {
   amount: number
   currency: string
-  network: PrismaCryptoNetwork | CryptoNetworkString
+  network: CryptoNetwork | CryptoNetworkString
   orderId: string
   customerEmail: string
 }

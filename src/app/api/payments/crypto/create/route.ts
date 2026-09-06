@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
       customerEmail: user.email,
     })
 
-    // Convert string network to Prisma enum
+    // Convert string network to enum for database
     const prismaNetwork = network === 'TRC20' ? CryptoNetwork.TRC20 : CryptoNetwork.ERC20
 
     // Create pending order
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
         paymentMethod: 'CRYPTO',
         paymentStatus: 'PENDING',
         transactionId: payment.paymentId,
-        cryptoNetwork: prismaNetwork,
+        cryptoNetwork: prismaNetwork as any, // Cast to Prisma enum
         walletAddress: payment.address,
         expiresAt: payment.expiresAt,
       },
