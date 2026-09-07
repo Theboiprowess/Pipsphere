@@ -51,7 +51,7 @@ export default function AboutPage() {
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-card/50">
           <div className="max-w-7xl mx-auto text-center">
             <h1 className="text-4xl sm:text-5xl font-bold mb-4">
-              <span className="gradient-text">About Pipsphere</span>
+              <span className="gradient-text">About Pipsphere Forex Academy</span>
             </h1>
             <p className="text-muted max-w-2xl mx-auto">
               Professional forex education built on experience, integrity, and a genuine desire to help traders develop.
@@ -67,7 +67,7 @@ export default function AboutPage() {
             </div>
             <div className="bg-card p-8 rounded-2xl border border-border">
               <p className="text-lg leading-relaxed text-muted mb-6">
-                At Pipsphere, we believe that quality forex education should be accessible, practical, and grounded in reality. Our mission is to provide traders with the knowledge, skills, and mindset needed to navigate the markets with confidence and discipline.
+                At Pipsphere Forex Academy, we believe that quality forex education should be accessible, practical, and grounded in reality. Our mission is to provide traders with the knowledge, skills, and mindset needed to navigate the markets with confidence and discipline.
               </p>
               <p className="text-lg leading-relaxed text-muted mb-6">
                 We don't promise overnight wealth or guaranteed profits. Instead, we focus on building solid foundations, teaching proven methodologies, and fostering a community of continuous learners who understand that successful trading is a journey, not a destination.
@@ -237,7 +237,7 @@ export default function AboutPage() {
             <div className="bg-card p-8 rounded-2xl border border-primary/30">
               <h2 className="text-2xl font-bold mb-4 text-primary">Important Notice</h2>
               <p className="text-muted leading-relaxed mb-4">
-                Pipsphere provides educational content and training materials for informational purposes only. The content, courses, and materials offered by Pipsphere do not constitute financial advice, investment advice, trading advice, or any other type of advice.
+                Pipsphere Forex Academy provides educational content and training materials for informational purposes only. The content, courses, and materials offered by Pipsphere Forex Academy do not constitute financial advice, investment advice, trading advice, or any other type of advice.
               </p>
               <p className="text-muted leading-relaxed mb-4">
                 Trading forex, CFDs, and other leveraged products involves substantial risk of loss and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to trade, you should carefully consider your investment objectives, level of experience, and risk appetite.

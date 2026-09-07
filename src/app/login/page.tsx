@@ -54,7 +54,7 @@ export default function LoginPage() {
           <div className="bg-card p-8 rounded-2xl border border-border">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
-              <p className="text-muted">Sign in to your Pipsphere account</p>
+              <p className="text-muted">Sign in to your Pipsphere Forex Academy account</p>
             </div>
 
             {error && (

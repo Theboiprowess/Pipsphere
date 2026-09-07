@@ -16,14 +16,14 @@ export default function TermsPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-bold mb-4">1. Acceptance of Terms</h2>
               <p className="text-muted">
-                By accessing or using Pipsphere services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.
+                By accessing or using Pipsphere Forex Academy services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold mb-4">2. Educational Nature of Services</h2>
               <p className="text-muted mb-4">
-                Pipsphere provides educational content and training materials for informational purposes only. The content, courses, and materials offered by Pipsphere:
+                Pipsphere Forex Academy provides educational content and training materials for informational purposes only. The content, courses, and materials offered by Pipsphere Forex Academy:
               </p>
               <ul className="list-disc pl-6 text-muted space-y-2">
                 <li>Do not constitute financial advice, investment advice, or trading advice</li>
@@ -83,14 +83,14 @@ export default function TermsPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-bold mb-4">7. Intellectual Property</h2>
               <p className="text-muted">
-                All content, materials, and intellectual property on Pipsphere are owned by us or our licensors and are protected by copyright and other intellectual property laws.
+                All content, materials, and intellectual property on Pipsphere Forex Academy are owned by us or our licensors and are protected by copyright and other intellectual property laws.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold mb-4">8. Limitation of Liability</h2>
               <p className="text-muted">
-                Pipsphere shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services.
+                Pipsphere Forex Academy shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services.
               </p>
             </section>
 

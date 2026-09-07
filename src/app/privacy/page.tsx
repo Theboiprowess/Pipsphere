@@ -16,7 +16,7 @@ export default function PrivacyPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-bold mb-4">1. Information We Collect</h2>
               <p className="text-muted mb-4">
-                Pipsphere collects information you provide directly to us, including when you create an account, make a purchase, or communicate with us. This may include:
+                Pipsphere Forex Academy collects information you provide directly to us, including when you create an account, make a purchase, or communicate with us. This may include:
               </p>
               <ul className="list-disc pl-6 text-muted space-y-2">
                 <li>Name and contact information (email, phone)</li>

@@ -11,7 +11,7 @@ export default function Footer() {
               <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">P</span>
               </div>
-              <span className="text-xl font-bold gradient-text">Pipsphere</span>
+              <span className="text-xl font-bold gradient-text">Pipsphere Forex Academy</span>
             </div>
             <p className="text-sm text-muted mb-4">
               Professional forex education with structured learning, mentorship, and community support.
@@ -114,13 +114,13 @@ export default function Footer() {
         {/* Risk Disclaimer */}
         <div className="mt-8 pt-8 border-t border-border">
           <p className="text-xs text-muted leading-relaxed">
-            <strong>Risk Warning:</strong> Trading forex and other leveraged products carries substantial risk of loss and is not suitable for all investors. The educational content provided by Pipsphere is for informational purposes only and does not constitute financial advice. Past performance is not indicative of future results. You should carefully consider your financial situation, investment objectives, and risk tolerance before trading. Never trade with money you cannot afford to lose. Pipsphere is not responsible for any trading decisions made by its users.
+            <strong>Risk Warning:</strong> Trading forex and other leveraged products carries substantial risk of loss and is not suitable for all investors. The educational content provided by Pipsphere Forex Academy is for informational purposes only and does not constitute financial advice. Past performance is not indicative of future results. You should carefully consider your financial situation, investment objectives, and risk tolerance before trading. Never trade with money you cannot afford to lose. Pipsphere Forex Academy is not responsible for any trading decisions made by its users.
           </p>
         </div>
 
         {/* Copyright */}
         <div className="mt-4 text-center text-sm text-muted">
-          <p>&copy; {new Date().getFullYear()} Pipsphere. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Pipsphere Forex Academy. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -248,7 +248,7 @@ async function main() {
     data: [
       {
         name: 'James Wilson',
-        content: 'The structured approach at Pipsphere transformed my trading. I went from losing consistently to having a profitable strategy after completing the intermediate course.',
+        content: 'The structured approach at Pipsphere Forex Academy transformed my trading. I went from losing consistently to having a profitable strategy after completing the intermediate course.',
         rating: 5,
         isApproved: true,
       },

@@ -14,7 +14,7 @@ export default function RiskDisclaimerPage() {
               <h1 className="text-3xl font-bold text-red-500">Risk Disclaimer</h1>
             </div>
             <p className="text-red-500 font-semibold">
-              Please read this disclaimer carefully before using Pipsphere services.
+              Please read this disclaimer carefully before using Pipsphere Forex Academy services.
             </p>
           </div>
 
@@ -40,7 +40,7 @@ export default function RiskDisclaimerPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-bold mb-4">Educational Content Only</h2>
               <p className="text-muted mb-4">
-                Pipsphere provides educational content and training materials for informational purposes only. By using our services, you acknowledge and agree that:
+                Pipsphere Forex Academy provides educational content and training materials for informational purposes only. By using our services, you acknowledge and agree that:
               </p>
               <ul className="list-disc pl-6 text-muted space-y-2">
                 <li>All content is for educational purposes and does not constitute financial advice</li>
@@ -55,14 +55,14 @@ export default function RiskDisclaimerPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-bold mb-4">No Warranties</h2>
               <p className="text-muted">
-                Pipsphere makes no warranties, express or implied, regarding the accuracy, completeness, reliability, or suitability of any information provided. We are not responsible for any errors or omissions, or for any results obtained from the use of this information.
+                Pipsphere Forex Academy makes no warranties, express or implied, regarding the accuracy, completeness, reliability, or suitability of any information provided. We are not responsible for any errors or omissions, or for any results obtained from the use of this information.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold mb-4">Limitation of Liability</h2>
               <p className="text-muted">
-                In no event shall Pipsphere, its trainers, employees, or affiliates be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising from your use of our services or your trading activities.
+                In no event shall Pipsphere Forex Academy, its trainers, employees, or affiliates be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising from your use of our services or your trading activities.
               </p>
             </section>
 
@@ -76,14 +76,14 @@ export default function RiskDisclaimerPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-bold mb-4">Regulatory Information</h2>
               <p className="text-muted">
-                Pipsphere is an educational platform and is not registered as a financial advisor or broker-dealer. We do not provide investment advice or manage client funds. Trading activities should be conducted through regulated brokers and financial institutions.
+                Pipsphere Forex Academy is an educational platform and is not registered as a financial advisor or broker-dealer. We do not provide investment advice or manage client funds. Trading activities should be conducted through regulated brokers and financial institutions.
               </p>
             </section>
 
             <section className="bg-card p-6 rounded-xl border border-border">
               <h2 className="text-xl font-bold mb-4">Acknowledgment</h2>
               <p className="text-muted">
-                By using Pipsphere services, you acknowledge that you have read, understood, and agreed to this Risk Disclaimer. You understand the risks involved in trading and agree that you are solely responsible for your trading decisions and outcomes.
+                By using Pipsphere Forex Academy services, you acknowledge that you have read, understood, and agreed to this Risk Disclaimer. You understand the risks involved in trading and agree that you are solely responsible for your trading decisions and outcomes.
               </p>
             </section>
           </div>

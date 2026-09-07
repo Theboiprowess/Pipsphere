@@ -16,7 +16,7 @@ export default function RefundPolicyPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-bold mb-4">General Policy</h2>
               <p className="text-muted mb-4">
-                At Pipsphere, we strive to provide high-quality educational content and excellent customer service. Due to the nature of digital products and educational services, our refund policy is as follows:
+                At Pipsphere Forex Academy, we strive to provide high-quality educational content and excellent customer service. Due to the nature of digital products and educational services, our refund policy is as follows:
               </p>
             </section>
 

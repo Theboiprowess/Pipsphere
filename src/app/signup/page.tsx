@@ -73,7 +73,7 @@ export default function SignupPage() {
           <div className="bg-card p-8 rounded-2xl border border-border">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold mb-2">Create Account</h1>
-              <p className="text-muted">Join Pipsphere and start your trading journey</p>
+              <p className="text-muted">Join Pipsphere Forex Academy and start your trading journey</p>
             </div>
 
             {error && (

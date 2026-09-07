@@ -24,7 +24,7 @@ export default function Navigation() {
             <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-xl">P</span>
             </div>
-            <span className="text-xl font-bold gradient-text">Pipsphere</span>
+            <span className="text-xl font-bold gradient-text">Pipsphere Forex Academy</span>
           </Link>
 
           {/* Desktop Navigation */}

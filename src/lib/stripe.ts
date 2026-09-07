@@ -19,7 +19,7 @@ export async function createStripeCheckoutSession(
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'Pipsphere Membership',
+              name: 'Pipsphere Forex Academy Membership',
               description: `Plan ID: ${planId}`,
             },
             unit_amount: Math.round(parseFloat(planId) * 100), // Convert to cents
