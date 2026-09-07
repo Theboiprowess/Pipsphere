@@ -3,10 +3,7 @@ import { db } from '@/lib/supabase-db'
 import { requireAuth } from '@/lib/auth-supabase'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2024-06-20',
-})
-
+// Stripe initialization moved inside request handler to avoid build errors
 export async function POST(request: NextRequest) {
   try {
     const user = await requireAuth()
@@ -19,6 +16,18 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
+
+    // Check if Stripe is configured
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return NextResponse.json(
+        { error: 'Stripe is not configured' },
+        { status: 500 }
+      )
+    }
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2024-06-20',
+    })
 
     // Get price from database
     let amount = 0
