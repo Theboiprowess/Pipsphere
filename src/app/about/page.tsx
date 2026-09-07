@@ -173,7 +173,7 @@ export default function AboutPage() {
                   <div className="flex items-start mb-6">
                     <div className="w-20 h-20 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mr-6 flex-shrink-0">
                       <span className="text-2xl font-bold text-white">
-                        {trader.name.split(' ').map(n => n[0]).join('')}
+                        {trader.name.split(' ')[0].substring(0, 2).toUpperCase()}
                       </span>
                     </div>
                     <div>
