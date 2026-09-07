@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const phrases = [
   'Learn Forex with us',
@@ -9,11 +9,9 @@ const phrases = [
 ]
 
 export default function TypewriterText() {
-  const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0)
   const [currentText, setCurrentText] = useState('')
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [charIndex, setCharIndex] = useState(0)
   const [reducedMotion, setReducedMotion] = useState(false)
+  const timeoutRef = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -30,41 +28,51 @@ export default function TypewriterText() {
       return
     }
 
+    let phraseIndex = 0
+    let charIndex = 0
+    let isDeleting = false
     const typingSpeed = 50
     const pauseDuration = 2000
 
-    const interval = setInterval(() => {
-      const currentPhrase = phrases[currentPhraseIndex]
+    const animate = () => {
+      const currentPhrase = phrases[phraseIndex]
 
       if (!isDeleting) {
         // Typing
         if (charIndex < currentPhrase.length) {
-          setCurrentText(prev => prev + currentPhrase[charIndex])
-          setCharIndex(prev => prev + 1)
+          setCurrentText(currentPhrase.slice(0, charIndex + 1))
+          charIndex++
+          timeoutRef.current = setTimeout(animate, typingSpeed)
         } else {
           // Finished typing, pause then start deleting
-          clearInterval(interval)
-          setTimeout(() => {
-            setIsDeleting(true)
-            setCharIndex(prev => prev - 1)
-          }, pauseDuration)
+          isDeleting = true
+          timeoutRef.current = setTimeout(animate, pauseDuration)
         }
       } else {
         // Deleting
         if (charIndex > 0) {
-          setCurrentText(prev => prev.slice(0, -1))
-          setCharIndex(prev => prev - 1)
+          setCurrentText(currentPhrase.slice(0, charIndex - 1))
+          charIndex--
+          timeoutRef.current = setTimeout(animate, typingSpeed)
         } else {
           // Finished deleting, move to next phrase
-          setIsDeleting(false)
-          setCurrentPhraseIndex(prev => (prev + 1) % phrases.length)
-          setCharIndex(0)
+          isDeleting = false
+          phraseIndex = (phraseIndex + 1) % phrases.length
+          charIndex = 0
+          timeoutRef.current = setTimeout(animate, typingSpeed)
         }
       }
-    }, typingSpeed)
+    }
 
-    return () => clearInterval(interval)
-  }, [currentPhraseIndex, isDeleting, charIndex, reducedMotion])
+    // Start animation
+    timeoutRef.current = setTimeout(animate, typingSpeed)
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+    }
+  }, [reducedMotion])
 
   // Split text into two parts: before "with us" and "with us"
   const parts = currentText.split('with us')
