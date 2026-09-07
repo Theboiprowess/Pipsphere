@@ -3,6 +3,7 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 
 export default function AboutPage() {
+  // Updated trader names: Muku The Aggressive Trader, KudzieFx, Theboi_zw, RobertFx
   const traders = [
     {
       name: 'Muku The Aggressive Trader',
