@@ -5,147 +5,85 @@ import Link from 'next/link'
 export default function ProgramsPage() {
   const courses = [
     {
-      id: 1,
-      level: 'BEGINNER',
-      title: 'Forex Fundamentals: Zero to Hero',
-      description: 'Complete beginner course covering market basics, terminology, reading charts, and placing your first trades with confidence.',
-      price: 199,
-      duration: '8 weeks',
-      trader: 'Alex Thompson',
+      id: 'mentorship',
+      level: 'MENTORSHIP',
+      title: 'Full Mentorship Course',
+      description: 'A complete forex mentorship program for traders who want structured learning and direct guidance from professional traders.',
+      price: 500,
+      duration: 'Ongoing',
+      trader: 'Pipsphere Team',
       modules: [
         {
-          title: 'Introduction to Forex Markets',
+          title: 'Complete Curriculum',
           lessons: [
-            'What is Forex Trading?',
-            'Market Sessions Explained',
-            'Currency Pairs Overview',
+            'Comprehensive strategy education',
+            'Market analysis techniques',
+            'Risk management fundamentals',
+            'Trading psychology mastery',
           ],
         },
         {
-          title: 'Reading Charts & Price Action',
+          title: 'Live Sessions',
           lessons: [
-            'Candlestick Patterns 101',
-            'Support and Resistance',
-            'Trend Lines and Channels',
+            'Weekly live trading sessions',
+            'Market breakdowns',
+            'Q&A with professional traders',
           ],
         },
         {
-          title: 'Risk Management Essentials',
+          title: 'Community Access',
           lessons: [
-            'Position Sizing Basics',
-            'Stop Loss Strategies',
-            'Risk-Reward Ratios',
+            'Private community forum',
+            'Peer learning opportunities',
+            'Accountability groups',
           ],
         },
       ],
       benefits: [
         'Lifetime access to course materials',
-        'Downloadable resources and checklists',
-        'Community forum access',
+        'Weekly live trading sessions',
+        'Direct mentorship from professional traders',
+        'Community access and support',
+        'Downloadable resources and templates',
         'Certificate of completion',
       ],
-    },
-    {
-      id: 2,
-      level: 'INTERMEDIATE',
-      title: 'Advanced Technical Analysis',
-      description: 'Deep dive into technical indicators, multi-timeframe analysis, and advanced chart patterns for experienced traders.',
-      price: 349,
-      duration: '10 weeks',
-      trader: 'Alex Thompson',
-      modules: [
-        {
-          title: 'Advanced Chart Patterns',
-          lessons: [
-            'Reversal Patterns',
-            'Continuation Patterns',
-            'Multi-Timeframe Analysis',
-          ],
-        },
-        {
-          title: 'Technical Indicators Mastery',
-          lessons: [
-            'Oscillators and Momentum',
-            'Trend Indicators',
-            'Volume Analysis',
-          ],
-        },
-      ],
-      benefits: [
-        'Advanced trading strategies',
-        'Live trading sessions',
-        'Strategy backtesting templates',
-        'Priority support',
-      ],
-    },
-    {
-      id: 3,
-      level: 'ADVANCED',
-      title: 'Professional Trading Strategies',
-      description: 'Institutional-level trading strategies, algorithmic concepts, and portfolio management for serious traders.',
-      price: 599,
-      duration: '12 weeks',
-      trader: 'Marcus Williams',
-      modules: [
-        {
-          title: 'Institutional Trading Concepts',
-          lessons: [
-            'Order Flow Analysis',
-            'Market Microstructure',
-            'Smart Money Concepts',
-          ],
-        },
-        {
-          title: 'Algorithmic Trading Basics',
-          lessons: [
-            'Building Simple Strategies',
-            'Backtesting Fundamentals',
-            'Portfolio Optimization',
-          ],
-        },
-      ],
-      benefits: [
-        'Proprietary indicators',
-        'Algorithmic trading templates',
-        '1-on-1 mentoring sessions',
-        'Prop firm preparation',
-      ],
+      disclaimer: 'Educational course - does not guarantee results. Trading involves significant risk of loss.',
     },
   ]
 
   const plans = [
     {
-      id: 'community',
-      name: 'Community Membership',
-      description: 'Access to our exclusive trading community, live sessions, and daily market analysis.',
-      price: 99,
-      duration: 'monthly',
+      id: 'signals',
+      name: 'Forex Signals',
+      description: 'A recurring monthly subscription for forex market insights and trade setups from professional traders.',
+      price: 199,
+      duration: 'month',
       isMonthly: true,
       features: [
         'Daily market analysis',
-        'Weekly live trading sessions',
-        'Private Discord community',
-        'Trade breakdowns and reviews',
-        'Q&A with professional traders',
+        'Trade setup notifications',
+        'Entry and exit point ideas',
+        'Risk management guidance',
+        'Community access',
       ],
-      includedCourses: ['Forex Fundamentals', 'Advanced Technical Analysis'],
+      disclaimer: 'Educational market commentary - not financial advice. Trading results are never guaranteed.',
     },
     {
-      id: 'professional',
-      name: 'Professional Plan',
-      description: 'Complete access to all courses, mentoring sessions, and priority support.',
-      price: 299,
-      duration: 'quarterly',
+      id: 'prop-firm',
+      name: 'Prop Firm Challenge Support',
+      description: 'Dedicated service to help traders prepare for and navigate prop-firm evaluation challenges through education and mentorship.',
+      price: 0,
+      duration: 'Custom',
       isMonthly: false,
       features: [
-        'All courses included',
-        'Monthly 1-on-1 mentoring',
-        'Priority email support',
-        'Advanced strategy access',
-        'Proprietary indicators',
-        'Risk management audit',
+        'Challenge preparation guidance',
+        'Risk management for evals',
+        'Trading plan development',
+        'Accountability tracking',
+        'Mentorship support',
       ],
-      includedCourses: ['Forex Fundamentals', 'Advanced Technical Analysis', 'Professional Trading Strategies'],
+      disclaimer: 'Education and guidance - does not guarantee pass or funding. Trading involves significant risk.',
+      contactRequired: true,
     },
   ]
 
@@ -228,8 +166,12 @@ export default function ProgramsPage() {
                       </div>
                     </div>
 
+                    {course.disclaimer && (
+                      <p className="text-xs text-muted mb-4 italic">{course.disclaimer}</p>
+                    )}
+
                     <Link
-                      href={`/checkout?course=${course.id}`}
+                      href={`/programs`}
                       className="inline-block px-8 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition-colors"
                     >
                       Enroll Now
@@ -245,9 +187,9 @@ export default function ProgramsPage() {
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-card/50">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Membership Plans</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Additional Services</h2>
               <p className="text-muted max-w-2xl mx-auto">
-                Get ongoing support and access to our trading community with our membership plans.
+                Supplement your learning with our ongoing services and support options.
               </p>
             </div>
 
@@ -256,10 +198,12 @@ export default function ProgramsPage() {
                 <div key={plan.id} className="bg-card p-8 rounded-2xl border border-border card-hover">
                   <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
                   <p className="text-muted mb-6">{plan.description}</p>
-                  <div className="mb-6">
-                    <span className="text-4xl font-bold">${plan.price}</span>
-                    <span className="text-muted">/{plan.duration}</span>
-                  </div>
+                  {plan.price > 0 && (
+                    <div className="mb-6">
+                      <span className="text-4xl font-bold">${plan.price}</span>
+                      <span className="text-muted">/{plan.duration}</span>
+                    </div>
+                  )}
                   <ul className="space-y-3 mb-8">
                     {plan.features.map((feature, index) => (
                       <li key={index} className="flex items-center text-sm">
@@ -270,22 +214,24 @@ export default function ProgramsPage() {
                       </li>
                     ))}
                   </ul>
-                  <div className="mb-6">
-                    <h4 className="font-semibold mb-2">Included Courses:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {plan.includedCourses.map((course, index) => (
-                        <span key={index} className="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full">
-                          {course}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <Link
-                    href={`/checkout?plan=${plan.id}`}
-                    className="block w-full py-3 bg-primary text-white rounded-lg font-semibold text-center hover:bg-primary/90 transition-colors"
-                  >
-                    Get Started
-                  </Link>
+                  {plan.disclaimer && (
+                    <p className="text-xs text-muted mb-6 italic">{plan.disclaimer}</p>
+                  )}
+                  {plan.contactRequired ? (
+                    <Link
+                      href="/contact"
+                      className="block w-full py-3 bg-primary text-white rounded-lg font-semibold text-center hover:bg-primary/90 transition-colors"
+                    >
+                      Get Challenge Support
+                    </Link>
+                  ) : (
+                    <Link
+                      href={`/programs`}
+                      className="block w-full py-3 bg-primary text-white rounded-lg font-semibold text-center hover:bg-primary/90 transition-colors"
+                    >
+                      Subscribe Monthly
+                    </Link>
+                  )}
                 </div>
               ))}
             </div>
@@ -296,7 +242,7 @@ export default function ProgramsPage() {
         <section className="py-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Plan Comparison</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Service Comparison</h2>
             </div>
 
             <div className="overflow-x-auto">
@@ -304,53 +250,59 @@ export default function ProgramsPage() {
                 <thead>
                   <tr className="border-b border-border">
                     <th className="p-4 text-left font-semibold">Feature</th>
-                    <th className="p-4 text-center font-semibold">Beginner Course</th>
-                    <th className="p-4 text-center font-semibold">Intermediate Course</th>
-                    <th className="p-4 text-center font-semibold">Advanced Course</th>
-                    <th className="p-4 text-center font-semibold">Community</th>
-                    <th className="p-4 text-center font-semibold">Professional</th>
+                    <th className="p-4 text-center font-semibold">Mentorship Course</th>
+                    <th className="p-4 text-center font-semibold">Forex Signals</th>
+                    <th className="p-4 text-center font-semibold">Prop Firm Support</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr className="border-b border-border">
-                    <td className="p-4">Course Access</td>
+                    <td className="p-4">Complete Curriculum</td>
                     <td className="p-4 text-center">✓</td>
-                    <td className="p-4 text-center">✓</td>
-                    <td className="p-4 text-center">✓</td>
-                    <td className="p-4 text-center">2 courses</td>
-                    <td className="p-4 text-center">All courses</td>
+                    <td className="p-4 text-center">-</td>
+                    <td className="p-4 text-center">-</td>
                   </tr>
                   <tr className="border-b border-border">
                     <td className="p-4">Live Sessions</td>
+                    <td className="p-4 text-center">✓ Weekly</td>
+                    <td className="p-4 text-center">-</td>
+                    <td className="p-4 text-center">-</td>
+                  </tr>
+                  <tr className="border-b border-border">
+                    <td className="p-4">Market Analysis</td>
+                    <td className="p-4 text-center">✓</td>
+                    <td className="p-4 text-center">✓ Daily</td>
+                    <td className="p-4 text-center">-</td>
+                  </tr>
+                  <tr className="border-b border-border">
+                    <td className="p-4">Trade Setups</td>
                     <td className="p-4 text-center">-</td>
                     <td className="p-4 text-center">✓</td>
+                    <td className="p-4 text-center">-</td>
+                  </tr>
+                  <tr className="border-b border-border">
+                    <td className="p-4">Risk Management</td>
                     <td className="p-4 text-center">✓</td>
-                    <td className="p-4 text-center">Weekly</td>
-                    <td className="p-4 text-center">Weekly + 1-on-1</td>
+                    <td className="p-4 text-center">✓</td>
+                    <td className="p-4 text-center">✓</td>
+                  </tr>
+                  <tr className="border-b border-border">
+                    <td className="p-4">Mentorship</td>
+                    <td className="p-4 text-center">✓ Direct</td>
+                    <td className="p-4 text-center">-</td>
+                    <td className="p-4 text-center">✓</td>
                   </tr>
                   <tr className="border-b border-border">
                     <td className="p-4">Community Access</td>
-                    <td className="p-4 text-center">Basic</td>
-                    <td className="p-4 text-center">Basic</td>
-                    <td className="p-4 text-center">Basic</td>
-                    <td className="p-4 text-center">Premium</td>
-                    <td className="p-4 text-center">Premium</td>
-                  </tr>
-                  <tr className="border-b border-border">
-                    <td className="p-4">Mentoring</td>
-                    <td className="p-4 text-center">-</td>
-                    <td className="p-4 text-center">-</td>
-                    <td className="p-4 text-center">Group</td>
-                    <td className="p-4 text-center">Q&A only</td>
-                    <td className="p-4 text-center">Monthly 1-on-1</td>
+                    <td className="p-4 text-center">✓</td>
+                    <td className="p-4 text-center">✓</td>
+                    <td className="p-4 text-center">✓</td>
                   </tr>
                   <tr>
                     <td className="p-4">Price</td>
-                    <td className="p-4 text-center font-semibold">$199</td>
-                    <td className="p-4 text-center font-semibold">$349</td>
-                    <td className="p-4 text-center font-semibold">$599</td>
-                    <td className="p-4 text-center font-semibold">$99/mo</td>
-                    <td className="p-4 text-center font-semibold">$299/qtr</td>
+                    <td className="p-4 text-center font-semibold">$500</td>
+                    <td className="p-4 text-center font-semibold">$199/mo</td>
+                    <td className="p-4 text-center font-semibold">Custom</td>
                   </tr>
                 </tbody>
               </table>

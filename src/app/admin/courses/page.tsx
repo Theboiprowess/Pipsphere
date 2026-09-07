@@ -321,6 +321,7 @@ export default function AdminCoursesPage() {
                     onChange={(e) => setFormData({ ...formData, level: e.target.value })}
                     className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   >
+                    <option value="MENTORSHIP">Mentorship</option>
                     <option value="BEGINNER">Beginner</option>
                     <option value="INTERMEDIATE">Intermediate</option>
                     <option value="ADVANCED">Advanced</option>
