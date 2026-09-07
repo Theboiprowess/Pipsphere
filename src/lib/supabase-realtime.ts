@@ -1,5 +1,5 @@
-import { getSupabase } from './getSupabase()'
-import { RealtimeChannel } from '@getSupabase()/getSupabase()-js'
+import { supabase } from './supabase'
+import { RealtimeChannel } from '@supabase/supabase-js'
 
 export type RealtimeEvent = {
   type: 'live_session_start' | 'live_session_end' | 'new_enrollment' | 'lesson_completed' | 'payment_completed'
@@ -10,7 +10,7 @@ export type RealtimeEvent = {
 export const realtime = {
   // Subscribe to live session updates
   subscribeToLiveSessions(callback: (session: any) => void) {
-    const channel = getSupabase()
+    const channel = supabase
       .channel('live_sessions_changes')
       .on(
         'postgres_changes',
@@ -30,7 +30,7 @@ export const realtime = {
 
   // Subscribe to user's enrollments
   subscribeToUserEnrollments(userId: string, callback: (enrollment: any) => void) {
-    const channel = getSupabase()
+    const channel = supabase
       .channel(`user_enrollments_${userId}`)
       .on(
         'postgres_changes',
@@ -51,7 +51,7 @@ export const realtime = {
 
   // Subscribe to lesson progress updates
   subscribeToLessonProgress(userId: string, callback: (progress: any) => void) {
-    const channel = getSupabase()
+    const channel = supabase
       .channel(`lesson_progress_${userId}`)
       .on(
         'postgres_changes',
@@ -72,7 +72,7 @@ export const realtime = {
 
   // Subscribe to payment status updates
   subscribeToPaymentUpdates(userId: string, callback: (order: any) => void) {
-    const channel = getSupabase()
+    const channel = supabase
       .channel(`payment_updates_${userId}`)
       .on(
         'postgres_changes',
@@ -93,7 +93,7 @@ export const realtime = {
 
   // Subscribe to new testimonials (for admin)
   subscribeToNewTestimonials(callback: (testimonial: any) => void) {
-    const channel = getSupabase()
+    const channel = supabase
       .channel('new_testimonials')
       .on(
         'postgres_changes',
@@ -113,12 +113,12 @@ export const realtime = {
 
   // Unsubscribe from a channel
   unsubscribe(channel: RealtimeChannel) {
-    getSupabase().removeChannel(channel)
+    supabase.removeChannel(channel)
   },
 
   // Broadcast custom events (for live sessions, notifications, etc.)
   async broadcastEvent(event: RealtimeEvent) {
-    const { error } = await getSupabase()
+    const { error } = await supabase
       .channel('events')
       .send({
         type: 'broadcast',
@@ -131,7 +131,7 @@ export const realtime = {
 
   // Listen to custom events
   listenToEvents(callback: (event: RealtimeEvent) => void) {
-    const channel = getSupabase()
+    const channel = supabase
       .channel('events')
       .on('broadcast', { event: 'custom_event' }, (payload) => {
         callback(payload.payload as RealtimeEvent)
