@@ -1,6 +1,6 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
+import { Suspense, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -72,7 +72,7 @@ const recommendedPaths = {
   },
 }
 
-export default function AssessmentResultPage() {
+function AssessmentResultContent() {
   const searchParams = useSearchParams()
   const path = searchParams.get('path') || 'beginner_forex_foundation'
   const recommendation = recommendedPaths[path as keyof typeof recommendedPaths] || recommendedPaths.beginner_forex_foundation
@@ -165,5 +165,24 @@ export default function AssessmentResultPage() {
 
       <Footer />
     </div>
+  )
+}
+
+export default function AssessmentResultPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        <main className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <p className="mt-4 text-muted">Loading...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    }>
+      <AssessmentResultContent />
+    </Suspense>
   )
 }
