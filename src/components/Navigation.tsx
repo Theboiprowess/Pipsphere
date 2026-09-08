@@ -10,7 +10,9 @@ export default function Navigation() {
 
   const navLinks = [
     { href: '/', label: 'Home' },
+    { href: '/assessment', label: 'Start Here' },
     { href: '/programs', label: 'Programs' },
+    { href: '/learning', label: 'Learning' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ]
