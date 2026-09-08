@@ -220,22 +220,22 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
                 {
-                  name: 'Alex Thompson',
+                  name: 'Muku The Aggressive Trader',
                   specialty: 'Technical Analysis',
                   bio: '8+ years in forex markets, specializing in swing trading and technical analysis patterns.',
                 },
                 {
-                  name: 'Sarah Chen',
+                  name: 'KudzieFx',
                   specialty: 'Fundamental Analysis',
                   bio: '10+ years experience in global markets. Expert in central bank policies and economic indicators.',
                 },
                 {
-                  name: 'Marcus Williams',
+                  name: 'Theboi_zw',
                   specialty: 'Algorithmic Trading',
                   bio: 'Former quantitative analyst. Specializes in automated trading systems and risk management.',
                 },
                 {
-                  name: 'Elena Rodriguez',
+                  name: 'RobertFx',
                   specialty: 'Trading Psychology',
                   bio: 'Trading psychology coach. Helps traders develop emotional discipline and decision-making.',
                 },
